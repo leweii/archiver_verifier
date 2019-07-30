@@ -1,15 +1,17 @@
 package verifier.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Index;
-import javax.persistence.Table;
+import verifier.constant.DirectionType;
+import verifier.constant.ItemStatus;
+import verifier.constant.ItemType;
+import verifier.constant.StorageConstant;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
 
 @Entity
 @Table(name = "rc_item", indexes = {@Index(columnList = "ownerId,createTime,type,direction,storage,status,fromNumber,toNumber", name = "idx_full_col")})
-public class Item implements Serializable {
+public class Item extends AbstractPersist<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -37,6 +39,25 @@ public class Item implements Serializable {
     @Column(name = "extensionId")
     private long extensionId;
 
+    @Enumerated
+    @Column(name = "direction", columnDefinition = "smallint default 0", nullable = false)
+    private DirectionType direction;
+
+    @Column(name = "generateTime", columnDefinition = "TIMESTAMP")
+    private Instant generateTime;
+
+    @Enumerated
+    @Column(name = "storage", columnDefinition = "smallint default 0", nullable = false)
+    private StorageConstant storage;
+
+    @Enumerated
+    @Column(name = "status", columnDefinition = "smallint", nullable = false)
+    private ItemStatus status;
+
+    @Enumerated
+    @Column(name = "type", columnDefinition = "smallint default 0", nullable = false)
+    private ItemType type;
+
     @Column(name = "autoRetryCount", nullable = false, columnDefinition = "int default 0")
     private int autoRetryCount;
 
@@ -54,10 +75,6 @@ public class Item implements Serializable {
 
     @Column(name = "exceptionCategoryId", columnDefinition = "bigint default 0", nullable = false)
     private long exceptionCategoryId;
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
 
     public long getJobId() {
         return jobId;
@@ -115,12 +132,44 @@ public class Item implements Serializable {
         this.toExtensionNum = toExtensionNum;
     }
 
-    public long getExtensionId() {
-        return extensionId;
+    public DirectionType getDirection() {
+        return direction;
     }
 
-    public void setExtensionId(long extensionId) {
-        this.extensionId = extensionId;
+    public void setDirection(DirectionType direction) {
+        this.direction = direction;
+    }
+
+    public Instant getGenerateTime() {
+        return generateTime;
+    }
+
+    public void setGenerateTime(Instant generateTime) {
+        this.generateTime = generateTime;
+    }
+
+    public StorageConstant getStorage() {
+        return storage;
+    }
+
+    public void setStorage(StorageConstant storage) {
+        this.storage = storage;
+    }
+
+    public ItemStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ItemStatus status) {
+        this.status = status;
+    }
+
+    public ItemType getType() {
+        return type;
+    }
+
+    public void setType(ItemType type) {
+        this.type = type;
     }
 
     public int getAutoRetryCount() {
@@ -169,5 +218,49 @@ public class Item implements Serializable {
 
     public void setExceptionCategoryId(long exceptionCategoryId) {
         this.exceptionCategoryId = exceptionCategoryId;
+    }
+
+    public long getExtensionId() {
+        return extensionId;
+    }
+
+    public void setExtensionId(long extensionId) {
+        this.extensionId = extensionId;
+    }
+
+    @Override
+    public String toString() {
+        return "Item{"
+                + "jobId="
+                + jobId
+                + ", ownerId="
+                + ownerId
+                + ", url='"
+                + url + '\''
+                + ", fromNumber="
+                + fromNumber
+                + ", toNumber="
+                + toNumber
+                + ", direction="
+                + direction
+                + ", generateTime="
+                + generateTime
+                + ", storage="
+                + storage
+                + ", status="
+                + status
+                + ", type="
+                + type
+                + ", autoRetryCount="
+                + autoRetryCount
+                + ", manualRetryCount="
+                + manualRetryCount
+                + ", archiveTime="
+                + archiveTime
+                + ", updateTime="
+                + updateTime
+                + ", createTime="
+                + createTime
+                + '}';
     }
 }
