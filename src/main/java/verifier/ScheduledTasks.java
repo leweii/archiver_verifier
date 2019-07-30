@@ -23,8 +23,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import verifier.entity.Line;
 import verifier.service.ConfigService;
-import verifier.thirdparty.AbstractApiService;
 import verifier.service.DataReaderService;
+import verifier.thirdparty.AbstractApiService;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -49,12 +49,12 @@ public class ScheduledTasks {
     public void verifyItems() {
         log.info("Start archiver verify {}", dateFormat.format(new Date()));
 
-        List<Line> lines = dataReaderService.readItems();
+        List<Line> lines = dataReaderService.readLines();
         for (AbstractApiService apiService : apiServices) {
             for (Line line : lines) {
-//                if (apiService.getStorageType().equals(item.get())) {
-//                    apiService.doVerify(item);
-//                }
+                if (apiService.getStorageType().equals(line.getStorageType())) {
+                    apiService.doVerify(line);
+                }
             }
         }
         long count = configService.count();

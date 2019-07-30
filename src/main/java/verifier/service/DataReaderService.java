@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public class DataReaderService {
 
-    public List<Line> readItems() {
+    public List<Line> readLines() {
         List<Line> lines = new ArrayList<>();
 
         return lines;
