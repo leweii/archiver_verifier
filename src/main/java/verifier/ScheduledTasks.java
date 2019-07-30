@@ -52,9 +52,9 @@ public class ScheduledTasks {
         List<Item> items = dataReaderService.readItems();
         for (AbstractApiService apiService : apiServices) {
             for (Item item : items) {
-                if (apiService.getStorageType().equals(item.getStorageType())) {
-                    apiService.doVerify(item);
-                }
+//                if (apiService.getStorageType().equals(item.get())) {
+//                    apiService.doVerify(item);
+//                }
             }
         }
         long count = configService.count();
